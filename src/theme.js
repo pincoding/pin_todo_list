@@ -5,4 +5,11 @@ export const theme = extendTheme({
     heading: '"Noto Sans KR","sans-serif"',
     body: '"Noto Sans KR","sans-serif"',
   },
+  styles: {
+    global: {
+      body: {
+        bg: "#5b74e2",
+      },
+    },
+  },
 });
