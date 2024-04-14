@@ -18,7 +18,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { GrPowerReset } from "react-icons/gr";
 
@@ -27,7 +27,7 @@ const App = () => {
     const getTodo = localStorage.getItem("todos");
     return getTodo ? JSON.parse(getTodo) : [];
   });
-
+  const cancelRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentId, setcurrentId] = useState();
   const toast = useToast();
@@ -67,7 +67,7 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-  });
+  }, [todos]);
 
   const onClickDelete = (id) => {
     settodos(todos.filter((todo) => todo.id !== id));
@@ -161,7 +161,6 @@ const App = () => {
               <Checkbox
                 key={data.id}
                 w={"100%"}
-                // bg={"#5a71da"}
                 bg={"white"}
                 size={"lg"}
                 h={"50px"}
@@ -172,18 +171,11 @@ const App = () => {
                 onChange={() => onChangeCheck(data.id)}
                 position={"relative"}
               >
+                {console.log(data.text)}
                 <Flex transition={"1s"}>
                   <Box fontSize={"16px"} fontWeight={"700"}>
                     {data.text}
                     {console.log(data.text)}
-                    {/* <Box
-                      width={"100%"}
-                      h={"1px"}
-                      bg={"gray"}
-                      position={"relative"}
-                      bottom={"50%"}
-                      opacity={"1"}
-                    ></Box> */}
                   </Box>
                   <Box
                     h={"100%"}
@@ -212,13 +204,13 @@ const App = () => {
             <AlertDialogBody>정말 삭제 하시겠습니까?</AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button onClick={onClose} marginRight={"10px"}>
+              <Button ref={cancelRef} onClick={onClose} marginRight={"10px"}>
                 취소
               </Button>
               <Button
                 onClick={() => {
-                  onClose();
                   onClickDelete(currentId);
+                  onClose();
                   toast({
                     title: "삭제되었습니다",
                     status: "success",
