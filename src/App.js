@@ -16,11 +16,15 @@ import {
   AlertDialogFooter,
   useDisclosure,
   useToast,
+  Text,
+  Wrap,
+  WrapItem,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { GrPowerReset } from "react-icons/gr";
+import React from "react";
 
 const App = () => {
   const [todos, settodos] = useState(() => {
@@ -31,11 +35,10 @@ const App = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentId, setcurrentId] = useState();
   const toast = useToast();
-  const [topData, setTopData] = useState(false);
   const dateDate = new Date();
 
   const krDate = `${dateDate.getMonth() + 1}월${dateDate.getDate()}일`;
-  console.log(krDate);
+  // console.log(krDate);
 
   const {
     register,
@@ -71,20 +74,19 @@ const App = () => {
 
   const onClickDelete = (id) => {
     settodos(todos.filter((todo) => todo.id !== id));
-    setTopData(false);
   };
+  const onClickAllDelete = () => {
+    // settodos(todos.filter((data) => !a.includes(data.id)));
+    // const a = todos.filter((data) => data.finish).map((data) => data.id);
+    // console.log(a);
+    // settodos(todos.filter((data) => !a.includes(data.id)));
 
-  const listAllHandler = (id) => {
-    settodos(todos.filter((todo) => todo.id === id));
+    const a = todos.filter((data) => (data.finish ? data.id : ""));
+    const b = a.map((adata) => adata.id);
+    settodos(todos.filter((todo) => !b.includes(todo.id)));
   };
-
-  // const onClickTopData = (id) => {
-  //   setTopData(todos.filter((top) => top.id === id && false));
-  // };
-
-  // console.log(todos.map((data) => data.id));
-  // console.log(topData);
-  // console.log();
+  // console.log(...todos.map((data) => data.finish));
+  const arText = [];
   return (
     <>
       <Heading
@@ -107,7 +109,7 @@ const App = () => {
           transform={"translateY(-50%)"}
           cursor={"pointer"}
         >
-          <GrPowerReset onClick={() => listAllHandler(currentId)} />
+          {/* <GrPowerReset onClick={() => listAllHandler(currentId)} /> */}
         </Box>
       </Heading>
       <Container
@@ -137,13 +139,7 @@ const App = () => {
         <Box as="form" onSubmit={handleSubmit(submitHandler)}>
           <Input
             {...register("todo", {
-              required: {
-                message: "한글자 이상 입력해주세요.",
-              },
-              minLength: {
-                message: "2글자 이상입력하세요",
-                value: 2,
-              },
+              required: "한글자 이상 입력해주세요.",
             })}
             borderColor={"white"}
             sx={{ "::placeholder": { color: "black", opacity: "0.4" } }}
@@ -154,11 +150,35 @@ const App = () => {
             {errors?.todo?.message}
           </p>
         </Box>
+        <Text>{`List ${todos.length}`}</Text>
+        {todos.length > 0 ? (
+          <Button
+            onClick={() => {
+              onOpen();
+            }}
+          >
+            삭제
+          </Button>
+        ) : (
+          <Button
+            onClick={() => {
+              toast({
+                title: "삭제할수 없습니다.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+            }}
+          >
+            삭제
+          </Button>
+        )}
 
         <Box>
           <VStack>
             {todos.map((data) => (
               <Checkbox
+                className="trueCheck"
                 key={data.id}
                 w={"100%"}
                 bg={"white"}
@@ -171,13 +191,16 @@ const App = () => {
                 onChange={() => onChangeCheck(data.id)}
                 position={"relative"}
               >
-                {console.log(data.text)}
                 <Flex transition={"1s"}>
                   <Box fontSize={"16px"} fontWeight={"700"}>
-                    {data.text}
-                    {console.log(data.text)}
+                    <Text
+                      as={data.finish ? "s" : ""}
+                      color={data.finish ? "gray.400" : ""}
+                    >
+                      {data.text}
+                    </Text>
                   </Box>
-                  <Box
+                  {/* <Box
                     h={"100%"}
                     position={"absolute"}
                     top={"0"}
@@ -191,39 +214,45 @@ const App = () => {
                         setcurrentId(data.id);
                       }}
                     />
-                  </Box>
+                  </Box> */}
                 </Flex>
               </Checkbox>
             ))}
           </VStack>
         </Box>
-        <AlertDialog isOpen={isOpen}>
-          <AlertDialogContent>
-            <AlertDialogHeader>삭제 확인</AlertDialogHeader>
+        {todos.length > 0 ? (
+          <AlertDialog isOpen={isOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>삭제 확인</AlertDialogHeader>
 
-            <AlertDialogBody>정말 삭제 하시겠습니까?</AlertDialogBody>
+              <AlertDialogBody>정말 삭제 하시겠습니까?</AlertDialogBody>
 
-            <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose} marginRight={"10px"}>
-                취소
-              </Button>
-              <Button
-                onClick={() => {
-                  onClickDelete(currentId);
-                  onClose();
-                  toast({
-                    title: "삭제되었습니다",
-                    status: "success",
-                    duration: 9000,
-                    isClosable: true,
-                  });
-                }}
-              >
-                삭제
-              </Button>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+              <AlertDialogFooter>
+                <Button
+                  mr={"10px"}
+                  onClick={() => {
+                    // onClickDelete(currentId);
+                    onClickAllDelete();
+                    onClose();
+                    toast({
+                      title: "삭제되었습니다",
+                      status: "success",
+                      duration: 9000,
+                      isClosable: true,
+                    });
+                  }}
+                >
+                  삭제
+                </Button>
+                <Button ref={cancelRef} onClick={onClose} marginRight={"10px"}>
+                  취소
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        ) : (
+          ""
+        )}
       </Container>
     </>
   );
