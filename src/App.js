@@ -35,6 +35,7 @@ const App = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentId, setcurrentId] = useState();
   const toast = useToast();
+  const [btnDel, setbtnDel] = useState();
   const dateDate = new Date();
 
   const krDate = `${dateDate.getMonth() + 1}월${dateDate.getDate()}일`;
@@ -70,6 +71,8 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
+    const k = todos.filter((data) => data.finish);
+    setbtnDel(k);
   }, [todos]);
 
   const onClickDelete = (id) => {
@@ -82,10 +85,11 @@ const App = () => {
     // settodos(todos.filter((data) => !a.includes(data.id)));
 
     const a = todos.filter((data) => (data.finish ? data.id : ""));
+
     const b = a.map((adata) => adata.id);
     settodos(todos.filter((todo) => !b.includes(todo.id)));
   };
-  // console.log(...todos.map((data) => data.finish));
+  console.log(todos);
   const arText = [];
   return (
     <>
@@ -115,7 +119,7 @@ const App = () => {
       <Container
         maxW={"450px"}
         w={"100%"}
-        h={"100vh"}
+        minH={"100vh"}
         bg={"#6a85ff"}
         alignItems={"center"}
       >
@@ -154,6 +158,7 @@ const App = () => {
         {todos.length > 0 ? (
           <Button
             onClick={() => {
+              onClickAllDelete();
               onOpen();
             }}
           >
@@ -174,8 +179,8 @@ const App = () => {
           </Button>
         )}
 
-        <Box>
-          <VStack>
+        <Box paddingBottom={"20px"}>
+          <VStack h={"100%"}>
             {todos.map((data) => (
               <Checkbox
                 className="trueCheck"
@@ -232,12 +237,11 @@ const App = () => {
                   mr={"10px"}
                   onClick={() => {
                     // onClickDelete(currentId);
-                    onClickAllDelete();
                     onClose();
                     toast({
-                      title: "삭제되었습니다",
-                      status: "success",
-                      duration: 9000,
+                      title: btnDel ? "삭제되었습니다" : "삭제할수 없습니다",
+                      status: btnDel ? "success" : "error",
+                      duration: 3000,
                       isClosable: true,
                     });
                   }}
