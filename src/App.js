@@ -229,7 +229,10 @@ const App = () => {
         </Box>
         {todos.length > 0 ? (
           <AlertDialog isOpen={isOpen}>
-            <AlertDialogContent w={"71%"} boxShadow={"1px 1px 5px 1px #d0d6f2"}>
+            <AlertDialogContent
+              w={"390px"}
+              boxShadow={"1px 1px 5px 1px #d0d6f2"}
+            >
               <AlertDialogHeader>삭제 확인</AlertDialogHeader>
 
               <AlertDialogBody>정말 삭제 하시겠습니까?</AlertDialogBody>
