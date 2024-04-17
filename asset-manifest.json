@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/pin_todo_list/static/js/main.5daa189e.js",
+    "main.js": "/pin_todo_list/static/js/main.cb365a09.js",
     "index.html": "/pin_todo_list/index.html",
-    "main.5daa189e.js.map": "/pin_todo_list/static/js/main.5daa189e.js.map"
+    "main.cb365a09.js.map": "/pin_todo_list/static/js/main.cb365a09.js.map"
   },
   "entrypoints": [
-    "static/js/main.5daa189e.js"
+    "static/js/main.cb365a09.js"
   ]
 }
