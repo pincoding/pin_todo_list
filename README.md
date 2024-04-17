@@ -1,70 +1,110 @@
-# Getting Started with Create React App
+# 투두리스트(Todo_list)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- 2024년 04월 08일
 
-## Available Scripts
+## 개발 기간
 
-In the project directory, you can run:
+- 04월 11일 ~ 04월 18일
 
-### `npm start`
+## 기술 stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- js, react, node.js, git, github
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 프로젝트 목적
 
-### `npm test`
+- 사용자들이 사이트 접속시 편하게 리스트 입력하고 빠르게 입력 및 삭제할수 있도록 UIUX설계 및 설정하였습니다.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 프로젝트 기획
 
-### `npm run build`
+### 작업 기획서
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+|   날짜   | 내용                                                                                           |
+| :------: | :--------------------------------------------------------------------------------------------- |
+| 04월11일 | 레퍼런스, 리액트 설치. 투두리스트 기본 디자인 설정,                                            |
+| 04월12일 | 차크라 UI라이브러리 npm 설치 후 코드 작성 ,디자인 스타일 , form태그 설정, Input 및 useForm설정 |
+| 04월13일 | Date 기능 추가, 삭제 기능추가, useForm에서 사용한 변수명 태그안에 넣기(에러 메시지 미설정)     |
+| 04월14일 | input안에 에러 메시지 설정한거 변수로 가져오기, 삭제 버튼 기능 태그에 넣기,                    |
+| 04월15일 | 빈 화면 조건, 삭제버튼조건, 스타일 조건, 필터 조건, 온클릭 조건, 체크박스 스타일 재설정        |
+| 04월16일 | 스타일 추가/삭제, 디버깅, 기능추가 사항 있을시 추가 , 타이틀 투두리스트 이름 추가              |
+| 04월17일 | 스타일 추가/삭제, 디버깅, 기능추가 사항 있을시 추가                                            |
+| 04월18일 | 깃허브 배포 완료                                                                               |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 프로젝트 소개
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 영화 리뷰 앱
+- the movie api url :https://pincoding.github.io/pin_todo_list/
 
-### `npm run eject`
+## 프로젝트 url
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- https://pincoding.github.io/pin_todo_list/
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 프로젝트 하면서 느낀점
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 프로젝트 진행중 수월하게 진행했던 부분
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- 레퍼턴스, 가이드라인, 리액트 기본설정, 컴포넌트 구상, api요청, Helmete설정 (웹 구상 및 기본 설정법 및 api가지고 오는거 까진 수월하게 진행하였습니다. )
 
-## Learn More
+### 프로젝트 진행중 개발 어려움
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- (1). api 가지고와서 조건을 걸어 기능적으로 넣을때 너무 어려웠습니다. 잴 어려웠던점은 두 api를 가지고와서 조건을 걸어 해당 id.name을 추가시켜줘야하는 어떻게 해야될지 모르겠어서 한참 생각하고 고민했던거 같습니다.
+- (2). api 프롭스안에 id값을 설정하고 해당 컨텐츠를 클릭하는순간 route에 설정한 아이디값이 뜨고 경로로 이동후 해당 페이지에 useParams id값을 가지고오는게 처음에는 어려웠습니다.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 어려움을 해결한 방법
 
-### Code Splitting
+- (1). 구글링을 통해서 비슷한 api를 가지고 온 사람걸 확인하고 필터처리를 해서 해당 api에 조건을 걸수 있었던걸 확인했습니다.
+  하지만 처음에는 필터안에다가 맵 함수를 사용 할려고 했느지만 맵 함수를 사용 못하였습니다. 그리고나서 확인해보니 방식이 잘못된걸 확인하고 ex) data.filter(data) data를 typeof 찍어서 확인해본결과 하나의 api에서는 숫자가 String 나왔고 하나는 Number 나오는걸 확인할수 있었습니다 조건을걸어주기 String 을 Number 바꿔주는 작업이 필요했고 const a = Number(해당 문자열 아이디 값)을 바꿔주었습니다. 이후 다시 조건을 걸어 필터안에 해당 id값이 같으면 저가 원하는 name 값이 나오게 처리하였고 그게 아니라면 "" 빈 문자가 나오게 처리하였습니다.
+- (2). api 프롭스 안에 id를 설정해두고나서 해당 페이지로 가져오기 위해서는 useParams가 필요하다는걸 알게되었습니다. 하지만 useParams안에 id를 넣으니 400번때 에러가 났고 저가 원하는 정보가 불러오지 못했습니다. 알고보니 라우터안에 :id 를 설정했어야했고 해당 text안에 Link를 넣어 해당 페이지로 이동하게 설정을하니 id 정보들을 가져올수 있었습니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 프로젝트 하면서 알게된 내용
 
-### Analyzing the Bundle Size
+- 라우터에서 설정된 id값을 가져올때는 :id라는 변수에 지정
+- 문제 생길때는 그냥 콘솔에 찍어보는게 아니라 typeof 붙여서 찍으면 정확하게 더 알수 있다는 점
+- 처음에 알고 있는 폰트svg이미지는 폰트 어썸만 알고 있었으나, react-icons가 좀더 쉽게 사용하기 쉽다는점
+- api영상을 넣을때 iframe을 사용했으나 찾아보니 iframe을 좀더 쉽게 사용할수있는 react-player라이브러리를 찾고 적용
+- 함수를 호출해서 콘솔에 찍은후 const a = fn(); 호출한다고 하면 특정 객체안에 속성을 추출할대는 {a} 넣으면 불러와진다는걸 알게됨
+- 비동기 작업 내가 가져온걸 실행시킬때 다른작업과 동시에 작업이 가능하며 네트워크 요청을 할때 응답이 오기전까지 시간이걸립니다. 예로 비동기 작업을 안할경고 NaN,undefined가 나올수 있습니다. 비동기 작업은 주로 callback, promise async/await 등의 매커니즘을 사용이 가능합니다 저는 async/await 사용했는데 이유는 다른 매너니즘 보다는 비동기 코드를 더 읽기 쉽고 관리하기 쉽도록 만드는데 사용하며 try/catch문을 사용하여 에러를쉽게 처리 가능합니다. try안에는 내가 쓴 코드 catch안에는 error 프롭스안에 console.log(error)를 사용했습니다. 주의 해야할점은 async/await 함수 안에서만 사용이 가능합니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 유용한 플러그인 및 라이브러리
 
-### Making a Progressive Web App
+- react-icons(아이콘), font-awesome(아이콘)
+- react-Helmet(document title element)(문서 제목 요소를 바꿈)
+- react-player(iframe을 쉽게 사용가능)
+- react-components(css 작업)
+- react-router-dom(라우팅,네비게이션 효율적 관리)
+- react Spinners(로딩 페이지 스타일)
+- swiper(슬라이더 및 캐러셀)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### 앞으로 어떤식으로 개발해가면 좋을지
 
-### Advanced Configuration
+- console.log() 확인할때 앞에 꼭 typeof 붙여서 확인
+- 모르는걸 해결하는 능력도 중요하지만 너무 오랜 시간 붙잡고 하기보단 그시간에 휴식또는 다른 기능을 구현
+- 변수 상수 함수등이름을 지정할때 전문적인 용어를 사용해보기
+- 구글링, chatGpt, 빙을 활용할때는 바로 코드를 붙여넣기보다는 원리를 이해하고 사용하기
+- 조건을 걸때 이 조건이 문자,숫자,블리언 값인지 확인하고 조건걸기
+- 유용한 라이브러리가 많으니 여러 라이브러리를 사용
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 프로젝트 진행하면서 반성 및 자신의 칭찬 사항
 
-### Deployment
+- 반성할 점
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+  - 기능 구현이나 스타일을 구현하고 만들때 끝까지 무조건 해결해야되는 욕심이 있습니다. 그걸 포기못하고 시간을 많이 쓰는 편입니다
+  - 구굴링과 chatGpt, 빙을 너무 많이 쓰다보니 개인적으로 기능 및 알고리즘을 풀고 해결하는데 시간이 많이걸리는 편입니다. 간단하고 관심있는건 직접 해보는 습관을 가져야 할것같습니다.
+  - 저가 정말 힘들게 알아왔던걸 남들에게 쉽게 공유를 잘하는 편입니다.
 
-### `npm run build` fails to minify
+- 칭찬 사항
+  - 기능 구현이나 스타일 부분을 끝까지 완정합니다. 잠을 포기하더라고 딱 만들고나면 정말 행복합니다
+  - 처음배우고 모르는 부분이있음 하나씩 하나씩 어떻게 이게 작동하는지 찾아보는 습관이있습니다. 저는 기능에 들어가는 코드를 외워야 할때도 있지만 그런 특정 부분 빼고는 외우지는 않습니다 기능이 어떻게 작동하는지 이해를 하고 넘어가는 습관을 가지고 있습니다 그렇게 하다보니 다음에 구글링과 chatGpt한테 물어볼때 어떻게 검색하고 물어봐야하는지 알게되었습니다.
+  - 처음 코딩을 배울때 어떤 분에게 물어봤는데 안알려주셨던 기억이 있습니다. 그래서 정말 힘들었습니다. 그거 때문이지 아님 저 성향인지는 모르겠지만 주변에서 저가 알고 있는 부분을 모르고 있으신 분이 있음 항상 최선을 다해서 도와드릴려고 합니다.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### 레퍼런스 와 가이드라인 정리 했는지
+
+- 레퍼런스는 쿠팡플레이스, 넷플릭스를 가지고왔고 두부분중 필요한건 넣고 뺄건 빼서 잘 정리했다고 생각합니다.
+- 웹디자인부터 배워서 그런지 이번 영화앱 가이드라인을 만들때는 정렬감 있게 가이드라인을 구성할수 있었습니다.
+
+### 프로젝트 종료 후 작업 사항과 추가사항 정리
+
+- 추가사항
+  - 페이지 이동시 스크롤 위치 0으로 이동할수 있도록 기능 추가
+  - 영화 상세페이지 안에 재생버튼을 누르면 스크롤값이 컨텐츠 높이값으로 올라갈수 있도록 스크롤 값 설정
+  - 시간이 있음 pinMovie로고 디자인으로 만들어서 넣기
+  - 로그인 페이지를 넣었지만 회원가입 페이지를 안넣어서 회원가입 페이지만들기
