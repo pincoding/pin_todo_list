@@ -86,8 +86,6 @@ const App = () => {
       });
     } else {
       setNumdata(true);
-      console.log("헤헤헤");
-      console.log(numdata);
       const overlap = todosDataid.map((data) => data.id);
       settodos(todos.filter((todo) => !overlap.includes(todo.id)));
       toast({
@@ -141,8 +139,8 @@ const App = () => {
             {...register("todo", {
               required: "한글자 이상 입력해주세요.",
               pattern: {
-                value: /^\S[a-zA-Z0-9 ]*$/,
-                message: "공백은 입력 할 수 없습니다.",
+                value: /^\S.*$/,
+                message: "첫글자는 공백을 입력 할 수 없습니다.",
               },
             })}
             boxShadow={"1px 1px 5px 1px #d0d6f2"}
@@ -184,35 +182,51 @@ const App = () => {
               <Checkbox
                 // bg={"gray"}
                 w={"100%"}
-                h={"50px"}
+                minH={"50px"}
                 key={data.id}
                 isChecked={data.finish}
                 onChange={() => onChangeCheck(data.id)}
                 padding={"5px 10px"}
               >
-                <Flex>
-                  <Box width={"0px"}>
+                <Flex w={"100%"}>
+                  <Box
+                    w={"100%"}
+                    padding={"0px 30px 0px 0px"}
+                    boxSizing="border-box"
+                  >
                     <Text
+                      display={"flex"}
+                      flexDirection={"column"}
                       as={data.finish ? "s" : ""}
                       color={data.finish ? "gray.400" : ""}
                       fontWeight={"500"}
+                      wordBreak={"break-all"}
                     >
                       {data.text}
                     </Text>
                   </Box>
+                  <Box
+                    w={"4%"}
+                    h={"100%"}
+                    position={"absolute"}
+                    top={"0"}
+                    right={"15px"}
+                    // bg={"gray"}
+                  >
+                    <DeleteIcon
+                      position={"absolute"}
+                      top={"50%"}
+                      right={"0"}
+                      transform={"translateY(-50%)"}
+                      opacity={"0.7"}
+                      onClick={() => {
+                        onOpen();
+                        // setcurrentId(data.id);
+                      }}
+                    />
+                  </Box>
                 </Flex>
 
-                <DeleteIcon
-                  position={"absolute"}
-                  right={"20px"}
-                  top={"50%"}
-                  transform={"translateY(-50%)"}
-                  opacity={"0.7"}
-                  onClick={() => {
-                    onOpen();
-                    // setcurrentId(data.id);
-                  }}
-                />
                 <Box
                   width={"96%"}
                   h={"1px"}
@@ -252,6 +266,13 @@ const App = () => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
+        ) : (
+          ""
+        )}
+        {todos.length === 0 ? (
+          <Text textAlign={"center"}>
+            😁아직 내용이 없네요... 내용을 입력해주세용😁
+          </Text>
         ) : (
           ""
         )}
