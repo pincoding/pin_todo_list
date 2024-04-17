@@ -32,7 +32,7 @@ const App = () => {
   });
   const cancelRef = useRef();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [currentId, setcurrentId] = useState();
+  // const [currentId, setcurrentId] = useState();
   const [numdata, setNumdata] = useState();
   const toast = useToast();
 
@@ -76,27 +76,28 @@ const App = () => {
 
   const onClickAllDelete = () => {
     const todosDataid = todos.filter((data) => (data.finish ? data.id : ""));
-    // console.log(todosDataid.length === 0);
-
-    if ((todosDataid.length === 0) === undefined) {
-      setNumdata(true);
-      console.log(123);
-    } else {
+    if (todosDataid.length === 0) {
       setNumdata(false);
+      toast({
+        title: "삭제할수 없습니다.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } else {
+      setNumdata(true);
       console.log("헤헤헤");
+      console.log(numdata);
       const overlap = todosDataid.map((data) => data.id);
       settodos(todos.filter((todo) => !overlap.includes(todo.id)));
+      toast({
+        title: "삭제되었습니다.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     }
-    console.log(numdata + "데이터");
-    toast({
-      title: numdata ? "삭제되었습니다." : "삭제할수없습니다",
-      status: numdata ? "success" : "error",
-      duration: 3000,
-      isClosable: true,
-    });
   };
-
-  const a = todos;
 
   return (
     <>
@@ -139,6 +140,10 @@ const App = () => {
           <Input
             {...register("todo", {
               required: "한글자 이상 입력해주세요.",
+              pattern: {
+                value: /^\S[a-zA-Z0-9 ]*$/,
+                message: "공백은 입력 할 수 없습니다.",
+              },
             })}
             boxShadow={"1px 1px 5px 1px #d0d6f2"}
             sx={{ "::placeholder": { color: "black", opacity: "0.4" } }}
@@ -166,59 +171,27 @@ const App = () => {
               fontSize={"14px"}
               colorScheme="messenger"
             >
-              전체삭제
+              선택삭제
             </Button>
           </WrapItem>
         ) : (
-          <Text
-            w={"50px"}
-            bg={"#ff2020"}
-            borderRadius={"5px"}
-            marginTop={"10px"}
-            fontWeight={"900"}
-            cursor={"pointer"}
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            fontSize={"14px"}
-            color={"white"}
-            onClick={() => {
-              toast({
-                title: "삭제할수 없습니다.",
-                status: "error",
-                duration: 3000,
-                isClosable: true,
-              });
-            }}
-          >
-            삭제
-          </Text>
+          ""
         )}
 
-        <Box paddingBottom={"20px"} mt={"40px"}>
-          <VStack h={"100%"}>
+        <Box>
+          <VStack mt={"40px"}>
             {todos.map((data) => (
               <Checkbox
-                className="trueCheck"
-                key={data.id}
+                // bg={"gray"}
                 w={"100%"}
-                bg={"white"}
-                size={"lg"}
                 h={"50px"}
-                p={"15px"}
-                mt={"10px"}
+                key={data.id}
                 isChecked={data.finish}
                 onChange={() => onChangeCheck(data.id)}
-                position={"relative"}
+                padding={"5px 10px"}
               >
-                <Flex
-                  w={"350px"}
-                  transition={"1s"}
-                  position={"relative"}
-                  left={"10px"}
-                  top={"3px"}
-                >
-                  <Box w={"100%"} fontSize={"16px"} fontWeight={"700"}>
+                <Flex>
+                  <Box width={"0px"}>
                     <Text
                       as={data.finish ? "s" : ""}
                       color={data.finish ? "gray.400" : ""}
@@ -227,29 +200,27 @@ const App = () => {
                       {data.text}
                     </Text>
                   </Box>
-                  <Box
-                    h={"100%"}
-                    position={"absolute"}
-                    top={"0"}
-                    right={"0px"}
-                    display={"flex"}
-                    alignItems={"center"}
-                  >
-                    <DeleteIcon
-                      opacity={"0.7"}
-                      onClick={() => {
-                        onOpen();
-                        setcurrentId(data.id);
-                      }}
-                    />
-                  </Box>
                 </Flex>
+
+                <DeleteIcon
+                  position={"absolute"}
+                  right={"20px"}
+                  top={"50%"}
+                  transform={"translateY(-50%)"}
+                  opacity={"0.7"}
+                  onClick={() => {
+                    onOpen();
+                    // setcurrentId(data.id);
+                  }}
+                />
                 <Box
-                  w={data.finish ? "0" : "100%"}
+                  width={"96%"}
                   h={"1px"}
                   bg={"gray.200"}
-                  mt={"8px"}
-                  ml={"10px"}
+                  position={"absolute"}
+                  left={"50%"}
+                  transform={"translateX(-50%)"}
+                  bottom={"0"}
                 ></Box>
               </Checkbox>
             ))}
