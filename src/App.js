@@ -17,13 +17,12 @@ import {
   useDisclosure,
   useToast,
   Text,
-  Wrap,
   WrapItem,
 } from "@chakra-ui/react";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { GrPowerReset } from "react-icons/gr";
+
 import React from "react";
 
 const App = () => {
@@ -75,17 +74,30 @@ const App = () => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  const onClickDelete = (id) => {
-    settodos(todos.filter((todo) => todo.id !== id));
-  };
   const onClickAllDelete = () => {
     const todosDataid = todos.filter((data) => (data.finish ? data.id : ""));
-    const overlap = todosDataid.map((adata) => adata.id);
-    settodos(todos.filter((todo) => !overlap.includes(todo.id)));
+    // console.log(todosDataid.length === 0);
+
+    if ((todosDataid.length === 0) === undefined) {
+      setNumdata(true);
+      console.log(123);
+    } else {
+      setNumdata(false);
+      console.log("헤헤헤");
+      const overlap = todosDataid.map((data) => data.id);
+      settodos(todos.filter((todo) => !overlap.includes(todo.id)));
+    }
+    console.log(numdata + "데이터");
+    toast({
+      title: numdata ? "삭제되었습니다." : "삭제할수없습니다",
+      status: numdata ? "success" : "error",
+      duration: 3000,
+      isClosable: true,
+    });
   };
 
   const a = todos;
-  console.log(a);
+
   return (
     <>
       <Container
@@ -94,8 +106,8 @@ const App = () => {
         minH={"100vh"}
         bg={"white"}
         alignItems={"center"}
-        borderRadius={"20px"}
         padding={"0 30px"}
+        boxShadow={"0px 0px 20px 15px rgba(0,0,0,0.06)"}
       >
         <Box w={"100%"} pt={"40px"}>
           <Heading fontSize={"22px"} padding={"0px 0px"}>
@@ -107,7 +119,12 @@ const App = () => {
                   padding={"0px"}
                   lineHeight={"40px"}
                 >
-                  <h2 style={{ fontSize: "20px", color: "black" }}>
+                  <h2
+                    style={{
+                      fontSize: "20px",
+                      color: "black",
+                    }}
+                  >
                     {`${krDate}`}
                   </h2>
                   <h2
@@ -135,25 +152,23 @@ const App = () => {
         </Box>
 
         {todos.length > 0 ? (
-          <Text
-            w={"50px"}
+          <WrapItem
             // border={"2px solid #d0d6f2"}
-            bg={"#ff2020"}
-            borderRadius={"5px"}
-            marginTop={"10px"}
-            fontWeight={"900"}
-            cursor={"pointer"}
-            display={"flex"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            fontSize={"14px"}
-            color={"white"}
+
             onClick={() => {
               onOpen();
             }}
           >
-            삭제
-          </Text>
+            <Button
+              mt={"10px"}
+              w={"80px"}
+              h={"26px"}
+              fontSize={"14px"}
+              colorScheme="messenger"
+            >
+              전체삭제
+            </Button>
+          </WrapItem>
         ) : (
           <Text
             w={"50px"}
@@ -171,7 +186,7 @@ const App = () => {
               toast({
                 title: "삭제할수 없습니다.",
                 status: "error",
-                duration: 9000,
+                duration: 3000,
                 isClosable: true,
               });
             }}
@@ -195,13 +210,19 @@ const App = () => {
                 isChecked={data.finish}
                 onChange={() => onChangeCheck(data.id)}
                 position={"relative"}
-                boxShadow={"1px 1px 5px 1px #d0d6f2"}
               >
-                <Flex transition={"1s"}>
-                  <Box fontSize={"16px"} fontWeight={"700"}>
+                <Flex
+                  w={"350px"}
+                  transition={"1s"}
+                  position={"relative"}
+                  left={"10px"}
+                  top={"3px"}
+                >
+                  <Box w={"100%"} fontSize={"16px"} fontWeight={"700"}>
                     <Text
                       as={data.finish ? "s" : ""}
                       color={data.finish ? "gray.400" : ""}
+                      fontWeight={"500"}
                     >
                       {data.text}
                     </Text>
@@ -210,7 +231,7 @@ const App = () => {
                     h={"100%"}
                     position={"absolute"}
                     top={"0"}
-                    right={"30px"}
+                    right={"0px"}
                     display={"flex"}
                     alignItems={"center"}
                   >
@@ -223,6 +244,13 @@ const App = () => {
                     />
                   </Box>
                 </Flex>
+                <Box
+                  w={data.finish ? "0" : "100%"}
+                  h={"1px"}
+                  bg={"gray.200"}
+                  mt={"8px"}
+                  ml={"10px"}
+                ></Box>
               </Checkbox>
             ))}
           </VStack>
@@ -237,59 +265,20 @@ const App = () => {
 
               <AlertDialogBody>정말 삭제 하시겠습니까?</AlertDialogBody>
 
-              {numdata ? (
-                <AlertDialogFooter>
-                  <Button
-                    mr={"10px"}
-                    onClick={() => {
-                      // onClickDelete(currentId);
-                      onClose();
-                      onClickAllDelete();
-                      toast({
-                        title: "삭제할수없습니다",
-                        status: "error",
-                        duration: 3000,
-                        isClosable: true,
-                      });
-                    }}
-                  >
-                    삭제
-                  </Button>
-                  <Button
-                    ref={cancelRef}
-                    onClick={onClose}
-                    marginRight={"10px"}
-                  >
-                    취소
-                  </Button>
-                </AlertDialogFooter>
-              ) : (
-                <AlertDialogFooter>
-                  <Button
-                    mr={"10px"}
-                    onClick={() => {
-                      // onClickDelete(currentId);
-                      onClose();
-                      onClickAllDelete();
-                      toast({
-                        title: "삭제되었습니다",
-                        status: "success",
-                        duration: 3000,
-                        isClosable: true,
-                      });
-                    }}
-                  >
-                    삭제
-                  </Button>
-                  <Button
-                    ref={cancelRef}
-                    onClick={onClose}
-                    marginRight={"10px"}
-                  >
-                    취소
-                  </Button>
-                </AlertDialogFooter>
-              )}
+              <AlertDialogFooter>
+                <Button
+                  mr={"10px"}
+                  onClick={() => {
+                    onClose();
+                    onClickAllDelete();
+                  }}
+                >
+                  삭제
+                </Button>
+                <Button ref={cancelRef} onClick={onClose} marginRight={"10px"}>
+                  취소
+                </Button>
+              </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
         ) : (
