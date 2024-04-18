@@ -163,7 +163,7 @@ const App = () => {
             }}
           >
             <Button
-              mt={"10px"}
+              mt={"20px"}
               w={"80px"}
               h={"26px"}
               fontSize={"14px"}
@@ -180,7 +180,7 @@ const App = () => {
           <VStack mt={"40px"}>
             {todos.map((data) => (
               <Checkbox
-                // bg={"gray"}
+            
                 w={"100%"}
                 minH={"50px"}
                 key={data.id}
