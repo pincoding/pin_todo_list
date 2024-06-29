@@ -180,7 +180,6 @@ const App = () => {
           <VStack mt={"40px"}>
             {todos.map((data) => (
               <Checkbox
-            
                 w={"100%"}
                 minH={"50px"}
                 key={data.id}
